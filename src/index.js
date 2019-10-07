@@ -39,9 +39,11 @@ function expressionCalculator(expr) {
             // if ( steck.[oper] hi prior them 'i' or steck.[oper] prior = 'i' ) { steck ---> out }
             // and oper ---> stack
             // console.log( "!!!: " + stack.length );
-            if ( stack[stack.length] == '*' || stack[stack.length] == '/' || stack[stack.length] == '-' || stack[stack.length] == '+' ) {
+            // console.log( "#1: " + stack.length + " st: " + stack[stack.length]);
+            if ( stack[stack.length-1] == '*' || stack[stack.length-1] == '/' || stack[stack.length-1] == '-' || stack[stack.length-1] == '+' ) {
                 let data = stack.pop();
-                stack.splice(stack.length-1, 1);
+                console.log( "#: " + stack.length );
+                // stack.splice(stack.length-1, 1);
                 out.push(data);
             }
             stack.push(str[i]);
@@ -49,9 +51,9 @@ function expressionCalculator(expr) {
         if ( str[i] == '*' || str[i] == '/' ) {
             // if ( steck.[oper] hi prior them 'i' or steck.[oper] prior = 'i' ) { steck ---> out }
             // and oper ---> stack
-            if ( stack[stack.length] == '*' || stack[stack.length] == '/' ) {
+            if ( stack[stack.length-1] == '*' || stack[stack.length-1] == '/' ) {
                 let data = stack.pop();
-                stack.splice(stack.length-1, 1);
+                // stack.splice(stack.length-1, 1);
                 out.push(data);
             }
             stack.push(str[i]);
@@ -62,7 +64,7 @@ function expressionCalculator(expr) {
     while ( stack.length > 0 ) {
         let data = stack.pop();
         // console.log('stack: ' + data );
-        stack.splice(stack.length-1, 1);
+        // stack.splice(stack.length-1, 1);
         out.push(data);
     }
     console.log('out: ' + out.join(''));
