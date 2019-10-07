@@ -42,7 +42,7 @@ function expressionCalculator(expr) {
             if ( stack[stack.length] == '*' || stack[stack.length] == '/' || stack[stack.length] == '-' || stack[stack.length] == '+' ) {
                 let data = stack.pop();
                 stack.splice(stack.length-1, 1);
-                out.push(str[i]);
+                out.push(data);
             }
             stack.push(str[i]);
         }
@@ -52,7 +52,7 @@ function expressionCalculator(expr) {
             if ( stack[stack.length] == '*' || stack[stack.length] == '/' ) {
                 let data = stack.pop();
                 stack.splice(stack.length-1, 1);
-                out.push(str[i]);
+                out.push(data);
             }
             stack.push(str[i]);
         }
