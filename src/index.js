@@ -7,6 +7,15 @@ function expressionCalculator(expr) {
     // write your solution here
     // var res;
     // var str = expr.replace(/ /g, "");
+    let testBr = expr.replace(/[0-9\+\-\*\\\s]/, '');
+    let brOpen = 0;
+    let brClose = 0;
+    for ( i=0; i < testBr.length; i++) {
+        if (testBr[i] == '(') { brOpen ++;}
+        if (testBr[i] == ')') { brClose ++;}
+    }
+    if (brClose != brOpen) { throw "ExpressionError: Brackets must be paired";}
+
     var str;
     if (expr.indexOf(' ') == -1 ) { str = expr.split('');}
     else {
