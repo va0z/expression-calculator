@@ -5,35 +5,46 @@ function eval() {
 
 function expressionCalculator(expr) {
     // write your solution here
-    var res;
-    var str = expr.replace(/ /g, "");
+    // var res;
+    // var str = expr.replace(/ /g, "");
+    expr = expr.replace(/\s+/g, ' ').trim();
+    var str = expr.split(' ');
 
     var out = [];
     var stack = [];
-    console.log("str: " + str);
-    // expr to opn
+    console.log("str: " + str.join(' '));
+    // expr to RPN
     for (i=0; i<str.length; i++) {
         // test num
         // console.log( "!: " + str[i] );
+        // console.log( "i:  " + i + " #: " + stack.length );
         if ( str[i].replace(/\d/g, '') == '' ) {
-            // ---> out
+            // 1-9 ---> out
             // console.log( "!!: " + str[i] );
             out.push(str[i]);
             // console.log( "!!: " + out.join('') );
         }
         if ( str[i] == '(' ) {
             // ---> steck
-            stack.splice(stack.length, 1, str[i]);
+            stack.push(str[i]);
         }
         if ( str[i] == ')' ) {
             // steck ---> out to '('
-            while ( stack[stack.length] != '(' ) {
+            while ( stack[stack.length-1] != '(' ) {
+                // console.log( "!!!: " + stack.length );
+                // let data = stack.pop();
+                // if (stack.length == 0) return "ExpressionError: Brackets must be paired";
+                // stack.splice(stack.length-1, 1);
+                // console.log( "i:  " + i + " st.length: " + stack.length + " st.last: " + stack[stack.length-1] );
+                // console.log(  " st.last: " + stack[stack.length-1] );
                 let data = stack.pop();
-                stack.splice(stack.length-1, 1);
-                out.push(str[i]);
+                if (data == undefined) { return "ExpressionError: Brackets must be paired";}
+                else { out.push(data);}
+                // console.log( "!!!: " + stack.length );
             }
             // del '('
-            stack.splice(stack.length-1, 1); 
+            // stack.splice(stack.length-1, 1); 
+            stack.pop();
         }
         if ( str[i] == '+' || str[i] == '-' ) {
             // if ( steck.[oper] hi prior them 'i' or steck.[oper] prior = 'i' ) { steck ---> out }
@@ -42,7 +53,7 @@ function expressionCalculator(expr) {
             // console.log( "#1: " + stack.length + " st: " + stack[stack.length]);
             if ( stack[stack.length-1] == '*' || stack[stack.length-1] == '/' || stack[stack.length-1] == '-' || stack[stack.length-1] == '+' ) {
                 let data = stack.pop();
-                console.log( "#: " + stack.length );
+                // console.log( "#: " + stack.length );
                 // stack.splice(stack.length-1, 1);
                 out.push(data);
             }
@@ -60,14 +71,60 @@ function expressionCalculator(expr) {
         }
     }
     // stack ---> out (in stack  should be onli oper )
-    console.log('stack: ' + stack.join('') );
+    // console.log('stack: ' + stack.join('') );
     while ( stack.length > 0 ) {
         let data = stack.pop();
         // console.log('stack: ' + data );
         // stack.splice(stack.length-1, 1);
         out.push(data);
     }
-    console.log('out: ' + out.join(''));
+    
+    // console.log('stack f: ' + stack.join('') );
+    console.log('out: ' + out.join(' '));
+    var data
+    // calculation RPN
+    while ( out.length > 0 ) {
+        data = out.shift();
+        // console.log('data: ' + data);
+        // if 1-9 --->  stack
+        // if ( + - * / ) stack.last.1 oper stack.last.2  and calc ---> stack 
+        if ( data.replace(/\d/g, '') == '' ) { 
+            stack.push(data);
+            // console.log('stack num: ' + stack.join(' ') );
+        }
+        else {
+            // let data1 = Number.parseInt(stack.pop());
+            // let data2 = Number.parseInt(stack.pop());
+            // let data1 = stack.pop();
+            // let data2 = stack.pop();
+            var data1 = parseFloat(stack.pop());
+            var data2 = parseFloat(stack.pop());
+            var rez;
+            if ( data == '+' ) { 
+                rez = data2 + data1 ;
+                stack.push(rez);
+            }
+            if ( data == '-' ) { 
+                rez = data2 - data1 ;
+                stack.push(rez);
+            }
+            if ( data == '*' ) { 
+                rez = data2 * data1 ;
+                stack.push(rez);
+            }
+            if ( data == '/' ) { 
+                rez = data2 / data1 ;
+                stack.push(rez);
+            }
+            // console.log(': ' + data2 + ' ' + data + ' ' + ' ' + data1 + ' = ' + rez );
+            // console.log('stack !num: ' + stack.join(' ') );
+        }
+
+    }
+    // res
+    let res = stack.pop();
+    console.log(res);
+    return res;
 
 
 
