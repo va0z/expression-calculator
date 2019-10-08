@@ -64,8 +64,6 @@ function expressionCalculator(expr) {
         }
     }
     // stack ---> out (in stack  should be onli oper )
-    console.log('out: ' + out.join(' '));
-    console.log('stack end: ' + stack.join('') );
     while ( stack.length > 0 ) {
         let data = stack.pop();
         out.push(data);
@@ -107,7 +105,6 @@ function expressionCalculator(expr) {
     }
     // res
     let res = stack.pop();
-    console.log(res);
     return res;
 }
 
