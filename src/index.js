@@ -7,12 +7,16 @@ function expressionCalculator(expr) {
     // write your solution here
     // var res;
     // var str = expr.replace(/ /g, "");
-    expr = expr.replace(/\s+/g, ' ').trim();
-    var str = expr.split(' ');
+    var str;
+    if (expr.indexOf(' ') == -1 ) { str = expr.split('');}
+    else {
+        expr = expr.replace(/\s+/g, ' ').trim();
+        str = expr.split(' ');
+    }
 
     var out = [];
     var stack = [];
-    console.log("str: " + str.join(' '));
+    // console.log("str: " + str.join(' '));
     // expr to RPN
     for (i=0; i<str.length; i++) {
         // test num
@@ -49,11 +53,11 @@ function expressionCalculator(expr) {
         if ( str[i] == '+' || str[i] == '-' ) {
             // if ( steck.[oper] hi prior them 'i' or steck.[oper] prior = 'i' ) { steck ---> out }
             // and oper ---> stack
-            console.log( "!!!: " + str[i] + " stack: " + stack );
+            // console.log( "!!!: " + str[i] + " stack: " + stack );
             // console.log( "#1: " + stack.length + " st: " + stack[stack.length]);
-            if ( stack[stack.length-1] == '*' || stack[stack.length-1] == '/' || stack[stack.length-1] == '-' || stack[stack.length-1] == '+' ) {
+            while ( stack[stack.length-1] == '*' || stack[stack.length-1] == '/' || stack[stack.length-1] == '-' || stack[stack.length-1] == '+' ) {
                 let data = stack.pop();
-                console.log( "#: " + data );
+                // console.log( "#: " + data );
                 // stack.splice(stack.length-1, 1);
                 out.push(data);
             }
@@ -62,16 +66,18 @@ function expressionCalculator(expr) {
         if ( str[i] == '*' || str[i] == '/' ) {
             // if ( steck.[oper] hi prior them 'i' or steck.[oper] prior = 'i' ) { steck ---> out }
             // and oper ---> stack
-            if ( stack[stack.length-1] == '*' || stack[stack.length-1] == '/' ) {
+            while ( stack[stack.length-1] == '*' || stack[stack.length-1] == '/' ) {
                 let data = stack.pop();
                 // stack.splice(stack.length-1, 1);
                 out.push(data);
             }
             stack.push(str[i]);
         }
+        // console.log('stack: ' + stack.join('') );
     }
     // stack ---> out (in stack  should be onli oper )
-    // console.log('stack: ' + stack.join('') );
+    console.log('out: ' + out.join(' '));
+    console.log('stack end: ' + stack.join('') );
     while ( stack.length > 0 ) {
         let data = stack.pop();
         // console.log('stack: ' + data );
@@ -80,7 +86,7 @@ function expressionCalculator(expr) {
     }
     
     // console.log('stack f: ' + stack.join('') );
-    console.log('out: ' + out.join(' '));
+    // console.log('out: ' + out.join(' '));
     var data
     // calculation RPN
     while ( out.length > 0 ) {
@@ -113,6 +119,7 @@ function expressionCalculator(expr) {
                 stack.push(rez);
             }
             if ( data == '/' ) { 
+                if ( data1 == 0 ) { throw "TypeError: Division by zero.";}
                 rez = data2 / data1 ;
                 stack.push(rez);
             }
@@ -125,35 +132,6 @@ function expressionCalculator(expr) {
     let res = stack.pop();
     console.log(res);
     return res;
-
-
-
-
-
-
-
-    // for (i=0; i<str.length; i++) {
-    //     // console.log("i: " + str[i]);
-    //     if (str[i]=="+") { 
-    //         // console.log("i: " + str[i]);
-    //         res=Number.parseInt(str[i-1]) + Number.parseInt(str[i+1]);
-    //     }
-    //     if (str[i]=="-") { 
-    //         // console.log("i: " + str[i]);
-    //         res=Number.parseInt(str[i-1]) - Number.parseInt(str[i+1]);
-    //     }
-    //     if (str[i]=="*") { 
-    //         // console.log("i: " + str[i]);
-    //         res=Number.parseInt(str[i-1]) * Number.parseInt(str[i+1]);
-    //     }
-    //     if (str[i]=="/") { 
-    //         // console.log("i: " + str[i]);
-    //         // test division by zero
-    //         res=Number.parseInt(str[i-1]) / Number.parseInt(str[i+1]);
-    //     }
-    // }
-    // console.log(res);
-    // return (res);
 }
 
 module.exports = {
