@@ -49,11 +49,11 @@ function expressionCalculator(expr) {
         if ( str[i] == '+' || str[i] == '-' ) {
             // if ( steck.[oper] hi prior them 'i' or steck.[oper] prior = 'i' ) { steck ---> out }
             // and oper ---> stack
-            // console.log( "!!!: " + stack.length );
+            console.log( "!!!: " + str[i] + " stack: " + stack );
             // console.log( "#1: " + stack.length + " st: " + stack[stack.length]);
             if ( stack[stack.length-1] == '*' || stack[stack.length-1] == '/' || stack[stack.length-1] == '-' || stack[stack.length-1] == '+' ) {
                 let data = stack.pop();
-                // console.log( "#: " + stack.length );
+                console.log( "#: " + data );
                 // stack.splice(stack.length-1, 1);
                 out.push(data);
             }
